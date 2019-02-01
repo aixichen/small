@@ -2,7 +2,8 @@
 namespace App;
 
 class BaseController {
-    protected function success($data,$message='请求成功',$status=200)
+
+    private function ajaxReturn($data='',$message = '',$status=0)
     {
         $result=[];
         $result['status']=$status;
@@ -11,15 +12,14 @@ class BaseController {
         header('Content-Type:application/json; charset=utf-8');
         echo json_encode($result);
     }
+    protected function success($data,$message='请求成功',$status=200)
+    {
+        $this->ajaxReturn($data,$message,$status);
+    }
 
     protected function error($message='请求失败',$status=500)
     {
-        $result=[];
-        $result['status']=$status;
-        $result['data']=[];
-        $result['message']=$message;
-        header('Content-Type:application/json; charset=utf-8');
-        echo json_encode($result);
+        $this->ajaxReturn($data,$message,$status);
     }
 
 }
